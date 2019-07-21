@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: webinfo
+  name: webinfo
+  namespace: localdev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: webinfo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: webinfo
+    spec:
+      containers:
+      - image: simple-go-app
+        imagePullPolicy: Never
+        name: simple-go-app
+        resources: 
+          requests:
+            cpu: "100m"
+            memory: "64M"
+          limits:
+            cpu: "250m"
+            memory: "128M"
