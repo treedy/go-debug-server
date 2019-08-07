@@ -12,16 +12,16 @@
       "label": "Build OSX",
       "type": "shell",
       "command": "GOPATH=$PWD go build main",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "group": "build"
     },
     {
       "label": "Build Linux",
       "type": "shell",
-      "command": "GOPATH=$PWD GOOS=linux GOARCH=amd64 go build main",
-      "group": "build"
+      "command": "GOPATH=$PWD GOOS=linux GOARCH=amd64 go build -o webinfo webinfo.go",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
