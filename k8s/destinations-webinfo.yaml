@@ -1,0 +1,63 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: webinfo-destinations
+spec:
+  host: webinfo-svc
+  # trafficPolicy:
+  #   loadBalancer:
+  #     consistentHash:
+  #       useSourceIp: True
+  #       minimumRingSize: 42
+  # trafficPolicy:
+  #   loadBalancer:
+  #     consistentHash:
+  #       httpCookie:
+  #         name: destpodhash
+  #         ttl: 3600s
+  #       minimumRingSize: 42
+  subsets:
+  - name: production
+    labels:
+      version: production
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          useSourceIp: True
+          minimumRingSize: 42
+    # trafficPolicy:
+    #   loadBalancer:
+    #     consistentHash:
+    #       httpCookie:
+    #         name: production
+    #         ttl: 3600s
+    #       minimumRingSize: 42
+    # trafficPolicy:
+    #   loadBalancer:
+    #     consistentHash:
+    #       httpCookie:
+    #         name: destpodhash
+    #         ttl: 3600s
+    #       minimumRingSize: 42
+  - name: canary
+    labels:
+      version: canary
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          useSourceIp: True
+          minimumRingSize: 42
+    # trafficPolicy:
+    #   loadBalancer:
+    #     consistentHash:
+    #       httpCookie:
+    #         name: destpodhash
+    #         ttl: 3600s
+    #       minimumRingSize: 42
+    # trafficPolicy:
+    #   loadBalancer:
+    #     consistentHash:
+    #       httpCookie:
+    #         name: canary
+    #         ttl: 3600s
+    #       minimumRingSize: 42

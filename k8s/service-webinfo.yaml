@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webinfo
+  name: webinfo-svc
+spec:
+  selector:
+    app: webinfo
+  ports:
+  - name: http-8080
+    port: 8080
+  type: ClusterIP

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: webinfo
-  name: webinfo
+  name: webinfo-canary
 spec:
   replicas: 2
   selector:
@@ -18,14 +18,14 @@ spec:
     metadata:
       labels:
         app: webinfo
-        version: production
+        version: canary
     spec:
       containers:
-      - image: gcr.io/toddreedy-services/simple-go-app:v1.0
+      - image: gcr.io/toddreedy-services/simple-go-app:v1.1
         name: simple-go-app
         ports:
-          - name: http-8080
-            containerPort: 8080
+        - name: http-8080
+          containerPort: 8080
         resources: 
           requests:
             cpu: "100m"

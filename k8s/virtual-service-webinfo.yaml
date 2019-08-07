@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webinfo-virt-svc
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - webinfo-gateway
+  http:
+  # The following is commented out because it doesn't work.
+  # TODO(treedy@): Uncomment below when https://github.com/istio/istio/issues/15826 is fixed.
+  # - match:
+  #   - headers:
+  #       cookie:
+  #         prefix: "destpodhash="
+  #   route:
+  #   - destination:
+  #       host: webinfo-svc
+  # - match:
+  #   - headers:
+  #       cookie:
+  #         prefix: "canary="
+  #   route:
+  #   - destination:
+  #       host: webinfo-svc
+  #       port:
+  #         number: 8080
+  #       subset: canary
+  # - match:
+  #   - headers:
+  #       cookie:
+  #         prefix: "production="
+  #   route:
+  #   - destination:
+  #       host: webinfo-svc
+  #       port:
+  #         number: 8080
+  #       subset: production
+  - route:
+    - destination:
+        host: webinfo-svc
+        port:
+          number: 8080
+        subset: production
+      weight: 80
+    - destination:
+        host: webinfo-svc
+        port:
+          number: 8080
+        subset: canary 
+      weight: 20
