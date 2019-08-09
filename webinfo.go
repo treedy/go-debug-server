@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
-	"time"
+
+	pb "timeservices"
+
+	"google.golang.org/grpc"
 )
 
 func greet(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +23,17 @@ func greet(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Headers:  %s\n", r.Header)
 	}
 	if query.Get("time") != "" {
-		fmt.Fprintf(w, "Server time: %s", time.Now())
+		conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("Did not connect grpc: %v", err)
+		}
+		defer conn.Close()
+		client := pb.NewUTCTimeStringClient(conn)
+		timeresp, err := client.GetUTCTime(context.Background(), &pb.UTCTimeRequest{})
+		if err != nil {
+			log.Fatalf("Couldn't get server time: %v", err)
+		}
+		fmt.Fprintln(w, timeresp.Time)
 	}
 }
 

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package timeservices;
+
+service UTCTimeString {
+  rpc GetUTCTime (UTCTimeRequest) returns (UTCTimeResponse);
+}
+
+message UTCTimeRequest {
+  // string time = 1;
+}
+
+message UTCTimeResponse {
+  string Time = 1;
+}
