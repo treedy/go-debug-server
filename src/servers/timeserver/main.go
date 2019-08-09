@@ -6,13 +6,14 @@ import (
 	"log"
 	"net"
 	"time"
+
 	pb "timeservices"
 
 	"google.golang.org/grpc"
 )
 
 func getUTCTime() string {
-	return fmt.Sprintf("UTC Time is %s", time.Now())
+	return fmt.Sprintf("Time is %s", time.Now().UTC())
 }
 
 type server struct{}
@@ -28,7 +29,7 @@ func main() {
 	}
 
 	svr := grpc.NewServer()
-	pb.RegisterUTCTimeStringServer(svr, &server{})
+	pb.RegisterUTCTimeServicesServer(svr, &server{})
 	if err := svr.Serve(lis); err != nil {
 		log.Fatalf("Failed to server: %v", err)
 	}

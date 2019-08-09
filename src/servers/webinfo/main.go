@@ -28,7 +28,7 @@ func greet(w http.ResponseWriter, r *http.Request) {
 			log.Fatalf("Did not connect grpc: %v", err)
 		}
 		defer conn.Close()
-		client := pb.NewUTCTimeStringClient(conn)
+		client := pb.NewUTCTimeServicesClient(conn)
 		timeresp, err := client.GetUTCTime(context.Background(), &pb.UTCTimeRequest{})
 		if err != nil {
 			log.Fatalf("Couldn't get server time: %v", err)
